@@ -78,6 +78,7 @@ export class SettingService {
 
         return { req: context?.req };
       },
+      introspection: true,
       subscriptions: {
         'subscriptions-transport-ws': true,
         'graphql-ws': true,
