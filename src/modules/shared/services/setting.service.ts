@@ -58,7 +58,7 @@ export class SettingService {
       resolvers: { JSON: GraphQLJSON },
       autoSchemaFile: join(process.cwd(), 'src/graphql-schema.gql'),
       sortSchema: true,
-      playground: false,
+      playground: true,
       ...(!this.isProduction && {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       }),
