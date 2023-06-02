@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  Relation,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -53,7 +54,7 @@ export class User {
   @OneToMany(() => Place, (place) => place.user, {
     nullable: true,
   })
-  place: Place[];
+  place: Relation<Place[]>;
 
   @BeforeInsert()
   async beforeInsert() {

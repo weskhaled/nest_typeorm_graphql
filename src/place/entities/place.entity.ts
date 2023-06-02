@@ -1,6 +1,12 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  Relation,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -19,7 +25,7 @@ export class Place {
 
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.place)
-  user: User;
+  user: Relation<User>;
 }
 
 @ObjectType()
