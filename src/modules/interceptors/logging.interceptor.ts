@@ -11,7 +11,11 @@ import {
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const date = new Date().toISOString();
-    const { fieldName } = context.getArgs()[3];
+
+    const fieldName = context.getArgs()[3]
+      ? context.getArgs()[3].fieldName
+      : '';
+
     console.time(`Request-Response time ${date} for ${fieldName}`);
     return next
       .handle()

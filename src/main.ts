@@ -1,6 +1,7 @@
 import { graphqlUploadExpress } from 'graphql-upload';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './modules/interceptors/logging.interceptor';
@@ -30,6 +31,18 @@ async function bootstrap() {
   app.enableCors();
   const configService = app.select(AppModule).get(ConfigService);
 
+  // Swagger configuration
+  const documentBuilder = new DocumentBuilder()
+    .setTitle('OpenAI Microservice Template')
+    .setDescription('')
+    .setVersion('1.0.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, documentBuilder);
+  SwaggerModule.setup('/', app, document);
+
   await app.listen(configService.get('PORT'));
+  Logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

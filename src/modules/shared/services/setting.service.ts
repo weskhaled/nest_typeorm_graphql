@@ -10,7 +10,7 @@ import { formatError } from 'src/modules/format/graphql-error.format';
 
 @Injectable()
 export class SettingService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   private get(key: string): string {
     const value = this.configService.get<string>(key);
@@ -59,9 +59,9 @@ export class SettingService {
       autoSchemaFile: join(process.cwd(), 'src/graphql-schema.gql'),
       sortSchema: true,
       playground: true,
-      ...(!this.isProduction && {
-        plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      }),
+      // ...(!this.isProduction && {
+      //   plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      // }),
       // context: ({ req }) => ({ req }),
       context: (context) => {
         if (context?.extra?.request) {
