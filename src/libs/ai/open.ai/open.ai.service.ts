@@ -18,10 +18,10 @@ export class OpenAiService {
 
   constructor(private readonly configService: ConfigService) {
     const configuration = new Configuration({
-      apiKey: configService.get('OPENAI_API_KEY'),
-      organization: configService.get('OPENAI_ORG_ID'),
+      apiKey: this.configService.get('OPENAI_API_KEY'),
+      organization: this.configService.get('OPENAI_ORG_ID'),
     });
-
+    console.log(this.configService.get('OPENAI_API_KEY'));
     this.client = new OpenAIApi(configuration);
 
     this.imageService = new OpenAiImageService(this.client);

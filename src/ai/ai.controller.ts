@@ -8,9 +8,9 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 
-import { OpenAiModelsList } from '../../libs/ai/open.ai/models/open.ai.models.list';
-import { OpenAiImageResponse } from '../../libs/ai/open.ai/models/open.ai.image.response';
-import { OpenAiCompletionResponse } from '../../libs/ai/open.ai/models/open.ai.completion.response';
+import { OpenAiModelsList } from '../libs/ai/open.ai/models/open.ai.models.list';
+import { OpenAiImageResponse } from '../libs/ai/open.ai/models/open.ai.image.response';
+import { OpenAiCompletionResponse } from '../libs/ai/open.ai/models/open.ai.completion.response';
 
 import { AiService } from './ai.service';
 
@@ -21,7 +21,7 @@ import { CodeCompletionDto } from './dto/code.completion.dto';
 @ApiTags('AI')
 @Controller('ai')
 export class AiController {
-  constructor(private readonly service: AiService) {}
+  constructor(private readonly service: AiService) { }
 
   @Get('models')
   @UseInterceptors(ClassSerializerInterceptor)

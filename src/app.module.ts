@@ -8,18 +8,18 @@ import { PlaceModule } from './place/place.module';
 import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { DeclareModule } from './declare/declare.module';
-import { getEnvPath } from './modules/helper/env.helper';
 import { CronModule } from './cron/cron.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SharedModule } from './modules/shared/shared.module';
 import { SettingService } from './modules/shared/services/setting.service';
-import { AiModule } from './modules/ai/ai.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: getEnvPath(`${__dirname}/..`),
+      cache: true,
+      envFilePath: ['.env', '.env.development', '.env.production'],
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -44,4 +44,4 @@ import { AiModule } from './modules/ai/ai.module';
     AiModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

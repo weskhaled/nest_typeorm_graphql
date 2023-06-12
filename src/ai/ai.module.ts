@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { OpenAiModule } from '../../libs/ai/open.ai/open.ai.module';
+import { OpenAiModule } from '../libs/ai/open.ai/open.ai.module';
 
 /** Local Imports **/
 import { AiService } from './ai.service';
@@ -12,4 +12,4 @@ import { AiController } from './ai.controller';
   providers: [AiService],
   exports: [AiService],
 })
-export class AiModule {}
+export class AiModule { }

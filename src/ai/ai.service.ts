@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { OpenAiService } from '../../libs/ai/open.ai/open.ai.service';
-import { OpenAiCompletionResponse } from '../../libs/ai/open.ai/models/open.ai.completion.response';
+import { OpenAiService } from '../libs/ai/open.ai/open.ai.service';
+import { OpenAiCompletionResponse } from '../libs/ai/open.ai/models/open.ai.completion.response';
 
 import { GenerateImageDto } from './dto/generate.image.dto';
 import { TextCompletionDto } from './dto/text.completion.dto';
