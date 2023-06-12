@@ -23,6 +23,7 @@
     "g": "node generator.mjs"
   },
   "dependencies": {
+    "@apollo/server": "^4.7.3",
     "@nestjs/apollo": "^11.0.6",
     "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^9.4.0",
