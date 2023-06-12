@@ -1,16 +1,17 @@
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
+import { GraphQLUpload } from 'graphql-upload';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import GraphQLJSON from 'graphql-type-json';
 import { isNil } from 'lodash';
 import { join } from 'path';
-import { formatError } from 'src/modules/format/graphql-error.format';
+import { formatError } from '../../format/graphql-error.format';
 
 @Injectable()
 export class SettingService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   private get(key: string): string {
     const value = this.configService.get<string>(key);
@@ -52,11 +53,15 @@ export class SettingService {
 
   get graphqlUseFactory():
     | Omit<ApolloDriverConfig, 'driver'>
-    | (Promise<Omit<ApolloDriverConfig, 'driver'>> & { uploads: boolean }) {
+    | (Promise<Omit<ApolloDriverConfig, 'driver'>> & {
+      resolvers: { JSON: typeof GraphQLJSON };
+    } & { cors: { origin: string; Credential: boolean } } & {
+      formatError: typeof formatError;
+    } & { plugins: any }) {
     return {
       uploads: false,
-      resolvers: { JSON: GraphQLJSON },
-      autoSchemaFile: join(process.cwd(), 'src/graphql-schema.gql'),
+      resolvers: { JSON: GraphQLJSON, Upload: GraphQLUpload },
+      autoSchemaFile: join(process.cwd(), 'dist/graphql-schema.gql'),
       sortSchema: true,
       playground: false,
       ...(!this.isProduction && {
@@ -84,8 +89,14 @@ export class SettingService {
         'graphql-ws': true,
       },
       cors: {
-        origin: '*',
-        Credential: true,
+        credentials: true,
+        maxAge: 600,
+        origin: [
+          'http://localhost',
+          'https://localhost',
+          'https://vue3-urql.vercel.app',
+          'https://studio.apollographql.com',
+        ],
       },
       cache: 'bounded',
       formatError,
@@ -109,7 +120,8 @@ export class SettingService {
       // username: this.getString('DB_USER'),
       // password: this.getString('DB_PASSWORD'),
       // database: this.getString('DB_NAME'),
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      // entities: ['dist/**/*.entity{.js}'],
+      entities: ['dist/**/*.entity{.js, .ts}'],
       synchronize: true,
       autoLoadEntities: true,
       logging: true, // if you want to see the query log, change to true

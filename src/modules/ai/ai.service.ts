@@ -9,7 +9,7 @@ import { CodeCompletionDto } from './dto/code.completion.dto';
 
 @Injectable()
 export class AiService {
-  constructor(private readonly openAiService: OpenAiService) {}
+  constructor(private readonly openAiService: OpenAiService) { }
 
   async listModels() {
     return this.openAiService.listModels();

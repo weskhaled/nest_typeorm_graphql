@@ -4,11 +4,11 @@ import {
   UnauthorizedException,
   Injectable,
 } from '@nestjs/common';
-import { SignInInput, SignUpInput } from 'src/auth/inputs/auth.input';
+import { SignInInput, SignUpInput } from '../auth/inputs/auth.input';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { pick } from 'lodash';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { JwtWithUser } from './entities/auth._entity';
 import { ConfigService } from '@nestjs/config';
 

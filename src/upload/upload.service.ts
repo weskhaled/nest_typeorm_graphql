@@ -105,16 +105,23 @@ export class UploadService {
       })
       .promise();
 
-    const promise = await Promise.all(
-      s3Object.Contents.map(async (v) => {
-        const url = `https://${this.configService.get(
-          'AWS_S3_BUCKET_NAME',
-        )}.s3.amazonaws.com/${v.Key}`;
-        const data = await firstValueFrom(this.httpService.get(url));
-        return data;
-      }),
-    );
+    return s3Object.Contents.map((v) => ({
+      url: `https://${this.configService.get(
+        'AWS_S3_BUCKET_NAME',
+      )}.s3.amazonaws.com/${v.Key}`,
+      key: v.Key,
+      size: v.Size,
+    }));
+    // const promise = await Promise.all(
+    //   s3Object.Contents.map(async (v) => {
+    //     const url = `https://${this.configService.get(
+    //       'AWS_S3_BUCKET_NAME',
+    //     )}.s3.amazonaws.com/${v.Key}`;
+    //     const data = await firstValueFrom(this.httpService.get(url));
+    //     return data;
+    //   }),
+    // );
 
-    return promise.map((v) => v.data);
+    // return promise.map((v) => v.data);
   }
 }

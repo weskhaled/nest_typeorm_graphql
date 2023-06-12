@@ -8,7 +8,7 @@ import {
   FindOptionsRelations,
 } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
-import { isObject } from 'src/util/isObject';
+import { isObject } from '../util/isObject';
 import {
   checkObject,
   directionObj,

@@ -29,6 +29,7 @@ async function bootstrap() {
   );
 
   app.enableCors();
+
   const configService = app.select(AppModule).get(ConfigService);
 
   // Swagger configuration

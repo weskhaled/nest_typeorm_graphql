@@ -1,15 +1,15 @@
-import { JwtWithUser, Token } from './entities/auth._entity';
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { JwtWithUser, Token } from './entities/auth._entity';
 import { AuthService } from './auth.service';
 import {
   SignInInput,
   SignUpInput,
   RefreshTokenInput,
-} from 'src/auth/inputs/auth.input';
-import { UseGuards } from '@nestjs/common';
-import { User } from 'src/user/entities/user.entity';
-import { CurrentUser } from 'src/modules/decorators/user.decorator';
-import { SignInGuard } from 'src/modules/guards/graphql-signin-guard';
+} from '../auth/inputs/auth.input';
+import { User } from '../user/entities/user.entity';
+import { CurrentUser } from '../modules/decorators/user.decorator';
+import { SignInGuard } from '../modules/guards/graphql-signin-guard';
 
 @Resolver()
 export class AuthResolver {

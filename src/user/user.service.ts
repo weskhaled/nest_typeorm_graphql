@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { SignUpInput } from 'src/auth/inputs/auth.input';
-import { OneRepoQuery, RepoQuery } from 'src/declare/types';
+import { SignUpInput } from '../auth/inputs/auth.input';
+import { OneRepoQuery, RepoQuery } from '../declare/types';
 import { User } from './entities/user.entity';
 import { CreateUserInput, UpdateUserInput } from './inputs/user.input';
 

@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
-import { Place } from 'src/place/entities/place.entity';
+import { Place } from '../../place/entities/place.entity';
 
 const BCRYPT_HASH_ROUNDS = 10;
 

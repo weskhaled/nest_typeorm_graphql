@@ -1,14 +1,27 @@
+import { Field, ObjectType } from '@nestjs/graphql';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { ConfigService } from '@nestjs/config';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UploadService } from './upload.service';
+
+@ObjectType()
+export class S3File {
+  @Field(() => String, { nullable: false })
+  url: string;
+
+  @Field(() => String, { nullable: false })
+  key: string;
+
+  @Field(() => Number, { nullable: false })
+  size: number;
+}
 
 @Resolver()
 export class UploadResolver {
   constructor(
     private readonly uploadService: UploadService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   @Mutation(() => String)
   async uploadFile(
@@ -16,7 +29,7 @@ export class UploadResolver {
     file: FileUpload,
   ): Promise<string> {
     const { key } = await this.uploadService.uploadFileToS3({
-      folderName: 'bewave',
+      folderName: 'folder',
       file,
     });
 
@@ -33,7 +46,7 @@ export class UploadResolver {
     return Promise.all(
       files.map(async (file) => {
         const { key } = await this.uploadService.uploadFileToS3({
-          folderName: 'bewave',
+          folderName: 'folder',
           file,
         });
 
@@ -49,9 +62,15 @@ export class UploadResolver {
     @Args({ name: 'keys', type: () => [String] }) keys: string[],
   ) {
     const mapped = keys.map((key) => key.split('s3.amazonaws.com/')[1]);
+
     for await (const key of mapped) {
       this.uploadService.deleteS3Object(key);
     }
     return true;
+  }
+
+  @Query(() => [S3File])
+  async getS3Files() {
+    return await this.uploadService.listS3Object('folder');
   }
 }

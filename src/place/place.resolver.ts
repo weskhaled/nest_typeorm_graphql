@@ -1,13 +1,13 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
-import { GetManyInput, GetOneInput } from 'src/declare/inputs/custom.input';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { GetManyInput, GetOneInput } from '../declare/inputs/custom.input';
 
-import { GraphqlPassportAuthGuard } from 'src/modules/guards/graphql-passport-auth.guard';
+import { GraphqlPassportAuthGuard } from '../modules/guards/graphql-passport-auth.guard';
+import { SubscriptionService } from '../modules/shared/subscription/subscription-service';
 import { GetPlaceType, Place } from './entities/place.entity';
 import { CreatePlaceInput, UpdatePlaceInput } from './inputs/place.input';
 import { PlaceService } from './place.service';
-import { SubscriptionService } from 'src/modules/shared/subscription/subscription-service';
 
 @Resolver()
 export class PlaceResolver {
