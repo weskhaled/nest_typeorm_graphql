@@ -177,6 +177,9 @@ devDependencies:
   nodemon:
     specifier: ^2.0.22
     version: 2.0.22
+  pnpm:
+    specifier: ^8.6.2
+    version: 8.6.2
   prettier:
     specifier: ^2.7.1
     version: 2.7.1
@@ -5961,6 +5964,12 @@ packages:
   /pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
+    dev: true
+
+  /pnpm@8.6.2:
+    resolution: {integrity: sha512-Dmgwe+T34Xr6UYaTLXSphPS7ok4h2EPkaHQEH6j7USoAk21CzueAdD1nQLkWJwDnZkJucho0LbKntJ+9B5xlUQ==}
+    engines: {node: '>=16.14'}
+    hasBin: true
     dev: true
 
   /postgres-array@2.0.0:
