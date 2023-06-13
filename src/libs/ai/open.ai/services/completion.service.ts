@@ -1,35 +1,37 @@
-import { OpenAiCompletionResponse } from '../models/open.ai.completion.response';
+import type { CreateCompletionResponse, OpenAIApi } from 'openai';
 
-const { OpenAIApi } = require('openai');
+import { OpenAiCompletionResponse } from '../models/open.ai.completion.response';
 
 export class OpenAiCompletionService {
   private readonly DEFAULT_COMPLETION_MODEL = 'text-davinci-003';
+
   private readonly DEFAULT_CODE_COMPLETION_MODEL = 'text-davinci-002';
 
   private readonly MAX_TOKENS = 128;
+
   private readonly MAX_CODE_COMPLETION_TOKENS = 1024;
 
-  constructor(private readonly service: typeof OpenAIApi) {}
+  constructor(private readonly service: OpenAIApi) {}
 
   async textCompletion(
     query: string,
     modelId: string = this.DEFAULT_COMPLETION_MODEL,
     maxTokens: number = this.MAX_TOKENS,
-  ): Promise<OpenAiCompletionResponse> {
+  ): Promise<CreateCompletionResponse | OpenAiCompletionResponse> {
     return this.service
       .createCompletion({
         prompt: query,
         model: modelId,
         max_tokens: maxTokens,
       })
-      .then((response) => response.data) as OpenAiCompletionResponse;
+      .then((response) => response.data);
   }
 
   async codeCompletion(
     query: string,
     modelId: string = this.DEFAULT_CODE_COMPLETION_MODEL,
     maxTokens: number = this.MAX_CODE_COMPLETION_TOKENS,
-  ): Promise<OpenAiCompletionResponse> {
+  ): Promise<CreateCompletionResponse | OpenAiCompletionResponse> {
     return this.service
       .createCompletion({
         model: modelId,
@@ -42,6 +44,6 @@ export class OpenAiCompletionService {
       })
       .then((response) => {
         return response.data;
-      }) as OpenAiCompletionResponse;
+      });
   }
 }

@@ -1,16 +1,17 @@
-import { S3, AWSError } from 'aws-sdk';
-import { PromiseResult } from 'aws-sdk/lib/request';
-import { ReadStream } from 'fs';
-import { FileUpload } from 'graphql-upload';
-import * as path from 'path';
-import { firstValueFrom } from 'rxjs';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AWSError, S3 } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
+import { ReadStream } from 'fs';
+import { FileUpload } from 'graphql-upload';
+import path from 'path';
 
 @Injectable()
 export class UploadService {
   private readonly awsS3: S3;
+
   public readonly S3_BUCKET_NAME: string;
 
   constructor(
@@ -22,7 +23,9 @@ export class UploadService {
       secretAccessKey: this.configService.get('AWS_S3_SECRET_KEY'),
       region: this.configService.get('AWS_S3_REGION'),
     });
-    this.S3_BUCKET_NAME = this.configService.get('AWS_S3_BUCKET_NAME');
+    this.S3_BUCKET_NAME = this.configService.get(
+      'AWS_S3_BUCKET_NAME',
+    ) as string;
   }
 
   async uploadFileToS3({
@@ -32,10 +35,11 @@ export class UploadService {
     folderName: string;
     file: FileUpload;
   }) {
-    const promised = await file;
+    const promised = file;
     const key = `${folderName}/${new Date().toISOString()}_${path.basename(
       promised.filename,
     )}`.replace(/ /g, '');
+
     try {
       await this.awsS3
         .upload({
@@ -71,6 +75,7 @@ export class UploadService {
           ContentType: 'text/plain; charset=utf-8',
         })
         .promise();
+
       return { key, s3Object, contentType: 'content-type' };
     } catch (error) {
       throw new BadRequestException(`File upload failed : ${error}`);
@@ -91,6 +96,7 @@ export class UploadService {
           callback,
         )
         .promise();
+
       return { success: true };
     } catch (error) {
       throw new BadRequestException(`Failed to delete file : ${error}`);
@@ -105,7 +111,7 @@ export class UploadService {
       })
       .promise();
 
-    return s3Object.Contents.map((v) => ({
+    return s3Object.Contents?.map((v) => ({
       url: `https://${this.configService.get(
         'AWS_S3_BUCKET_NAME',
       )}.s3.amazonaws.com/${v.Key}`,

@@ -2,17 +2,18 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AiModule } from './ai/ai.module';
 import { AuthModule } from './auth/auth.module';
+import { CronModule } from './cron/cron.module';
+import { DeclareModule } from './declare/declare.module';
+import { SettingService } from './modules/shared/services/setting.service';
+import { SharedModule } from './modules/shared/shared.module';
 import { PlaceModule } from './place/place.module';
 import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
-import { DeclareModule } from './declare/declare.module';
-import { CronModule } from './cron/cron.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { SharedModule } from './modules/shared/shared.module';
-import { SettingService } from './modules/shared/services/setting.service';
-import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -44,4 +45,4 @@ import { AiModule } from './ai/ai.module';
     AiModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

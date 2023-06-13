@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
-import GraphQLJSON from 'graphql-type-json';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { GetManyInput, GetOneInput } from '../declare/inputs/custom.input';
+import GraphQLJSON from 'graphql-type-json';
 
+import { GetManyInput, GetOneInput } from '../declare/inputs/custom.input';
 import { GraphqlPassportAuthGuard } from '../modules/guards/graphql-passport-auth.guard';
 import { SubscriptionService } from '../modules/shared/subscription/subscription-service';
 import { GetPlaceType, Place } from './entities/place.entity';
@@ -28,7 +28,9 @@ export class PlaceResolver {
   @Query(() => [String])
   @UseGuards(new GraphqlPassportAuthGuard(['user', 'admin']))
   async getAddress() {
-    return (await this.placeService.getAddress()).map((item) => item.address);
+    return (
+      (await this.placeService.getAddress())?.map((item) => item.address) || []
+    );
   }
 
   @Query(() => Place)
@@ -49,6 +51,7 @@ export class PlaceResolver {
       relations: ['user'],
     });
     this.subscriptionService.send('listenForNewPlace', newPlaceInserted);
+
     return newPlace;
   }
 
@@ -75,7 +78,9 @@ export class PlaceResolver {
 
   @UseGuards(new GraphqlPassportAuthGuard(['user', 'admin']))
   @Subscription(() => Place, { resolve: (data) => data })
-  public listenForNewPlace() {
-    return this.subscriptionService.subscribeIterator('listenForNewPlace');
+  public async listenForNewPlace() {
+    return await this.subscriptionService.subscribeIterator(
+      'listenForNewPlace',
+    );
   }
 }

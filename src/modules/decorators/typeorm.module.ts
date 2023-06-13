@@ -1,6 +1,8 @@
-import { DataSource } from 'typeorm';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { DynamicModule, Provider } from '@nestjs/common';
 import { getDataSourceToken } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+
 import { TYPEORM_CUSTOM_REPOSITORY } from './typeorm.decorator';
 
 export class TypeOrmExModule {
@@ -20,7 +22,8 @@ export class TypeOrmExModule {
         inject: [getDataSourceToken()],
         provide: repository,
         useFactory: (dataSource: DataSource): typeof repository => {
-          const baseRepository = dataSource.getRepository<unknown>(entity);
+          const baseRepository = dataSource.getRepository(entity);
+
           return new repository(
             baseRepository.target,
             baseRepository.manager,

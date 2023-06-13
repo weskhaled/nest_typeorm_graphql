@@ -8,4 +8,4 @@ import { OpenAiService } from './open.ai.service';
   providers: [OpenAiService],
   exports: [OpenAiService],
 })
-export class OpenAiModule { }
+export class OpenAiModule {}

@@ -1,6 +1,9 @@
+/* eslint-disable no-invalid-this */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { BadRequestException, Module } from '@nestjs/common';
 import { isEmpty } from 'lodash';
-import { processWhere } from './utils/processWhere';
 import {
   FindManyOptions,
   FindOneOptions,
@@ -8,6 +11,7 @@ import {
   FindOptionsRelations,
 } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
+
 import { isObject } from '../util/isObject';
 import {
   checkObject,
@@ -19,6 +23,7 @@ import {
   RepoQuery,
   valueObj,
 } from './types';
+import { processWhere } from './utils/processWhere';
 
 declare module 'typeorm/repository/Repository' {
   interface Repository<Entity> {
@@ -45,6 +50,7 @@ function filterOrder<T>(order: FindOptionsOrder<T>) {
             `Order must be ${Object.keys(directionObj).join(' or ')}`,
           );
         }
+
         if (!checkObject[_key].includes(_value as unknown)) {
           throw new BadRequestException(
             `Order ${_key} must be ${checkObject[_key].join(' or ')}`,
@@ -66,6 +72,7 @@ export class DeclareModule {
   constructor() {
     this.call();
   }
+
   call() {
     Repository.prototype.getMany = async function <T>(
       this: Repository<T>,
@@ -93,6 +100,7 @@ export class DeclareModule {
         count: async () => ({ count: await this.count(condition) }),
         all: async () => {
           const res = await this.findAndCount(condition);
+
           return { data: res[0], count: res[1] };
         },
       };
@@ -103,7 +111,7 @@ export class DeclareModule {
     Repository.prototype.getOne = async function <T>(
       this: Repository<T>,
       { where, relations }: OneRepoQuery<T>,
-    ): Promise<T> {
+    ): Promise<T | null> {
       const condition: FindOneOptions<T> = {
         ...(relations && {
           relations: relations as unknown as FindOptionsRelations<T>,

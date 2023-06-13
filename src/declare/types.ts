@@ -1,4 +1,5 @@
 import { FindOptionsOrder } from 'typeorm';
+
 import { IPagination } from './inputs/custom.input';
 import { IWhere } from './utils/types';
 
@@ -7,7 +8,7 @@ export const valueObj = {
   DESC: 'DESC',
   asc: 'asc',
   desc: 'desc',
-  1: 1,
+  '1': 1,
   '-1': -1,
 } as const;
 
@@ -37,7 +38,7 @@ export type ISort = IDriection | IDirectionWitnNulls;
 
 export type IDataType = 'count' | 'data' | 'all';
 
-export type IRelation<T> = (keyof T)[];
+export type IRelation<T> = Array<keyof T>;
 
 export interface IGetData<T> {
   data?: T[];

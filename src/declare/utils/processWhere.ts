@@ -1,18 +1,21 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { BadRequestException } from '@nestjs/common';
-import { isPlainObject, isArray, merge, set } from 'lodash';
+import { isArray, isPlainObject, merge, set } from 'lodash';
 import {
   Between,
+  FindOptionsWhere,
+  ILike,
   In,
   IsNull,
   LessThan,
-  ILike,
   LessThanOrEqual,
   Like,
   MoreThan,
   MoreThanOrEqual,
   Not,
-  FindOptionsWhere,
 } from 'typeorm';
+
 import { IWhere, OperatorType } from './types';
 
 function processOperator<T>(prevKey: string, nextObject: OperatorType<T>) {
@@ -79,6 +82,7 @@ function goDeep<T>(
 
     nextObject = { $eq: nextObject };
   }
+
   const valueOfNextObjet = Object.values(nextObject)[0];
 
   // Check if next item is on bottom
@@ -91,8 +95,10 @@ function goDeep<T>(
     if (keyStore.length) {
       set(_original, keyStore.join('.'), value);
       keyStore = [];
+
       return _original;
     }
+
     return { ..._original, ...value };
   }
 
@@ -102,7 +108,7 @@ function goDeep<T>(
 
 export function processWhere<T>(
   original: IWhere<T>,
-): FindOptionsWhere<T> | FindOptionsWhere<T>[] {
+): FindOptionsWhere<T> | Array<FindOptionsWhere<T>> {
   // Check if "or" expression
   if (isArray(original)) {
     return original.map((where, i) => goDeep(where, [], original[i]));

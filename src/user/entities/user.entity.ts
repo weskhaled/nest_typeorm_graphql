@@ -1,3 +1,5 @@
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import bcrypt from 'bcrypt';
 import { IsEmail } from 'class-validator';
 import {
   BeforeInsert,
@@ -5,12 +7,11 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  Relation,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import * as bcrypt from 'bcrypt';
+
 import { Place } from '../../place/entities/place.entity';
 
 const BCRYPT_HASH_ROUNDS = 10;

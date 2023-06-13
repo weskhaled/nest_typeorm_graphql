@@ -36,7 +36,7 @@ type TGte = {
 // In
 //where:{user:{id:{$in:[1,2,3]}}}
 type TIn<T> = {
-  $in: T[keyof T][];
+  $in: Array<T[keyof T]>;
 };
 
 // Not in
@@ -121,4 +121,4 @@ type ExtendedFindOptionsWhere<Entity> = {
 
 export type IWhere<T> =
   | ExtendedFindOptionsWhere<T>
-  | ExtendedFindOptionsWhere<T>[];
+  | Array<ExtendedFindOptionsWhere<T>>;

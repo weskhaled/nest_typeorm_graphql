@@ -1,17 +1,18 @@
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
-import { GraphQLUpload } from 'graphql-upload';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import GraphQLJSON from 'graphql-type-json';
+import { GraphQLJSON } from 'graphql-type-json';
+import { GraphQLUpload } from 'graphql-upload';
 import { isNil } from 'lodash';
 import { join } from 'path';
+
 import { formatError } from '../../format/graphql-error.format';
 
 @Injectable()
 export class SettingService {
-  constructor(private readonly configService: ConfigService) { }
+  constructor(private readonly configService: ConfigService) {}
 
   private get(key: string): string {
     const value = this.configService.get<string>(key);
@@ -54,10 +55,10 @@ export class SettingService {
   get graphqlUseFactory():
     | Omit<ApolloDriverConfig, 'driver'>
     | (Promise<Omit<ApolloDriverConfig, 'driver'>> & {
-      resolvers: { JSON: typeof GraphQLJSON };
-    } & { cors: { origin: string; Credential: boolean } } & {
-      formatError: typeof formatError;
-    } & { plugins: any }) {
+        resolvers: { JSON: typeof GraphQLJSON };
+      } & { cors: { origin: string; credentials: boolean } } & {
+        formatError: typeof formatError;
+      } & { plugins: any }) {
     return {
       uploads: false,
       resolvers: { JSON: GraphQLJSON, Upload: GraphQLUpload },

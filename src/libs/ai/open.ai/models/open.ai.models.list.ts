@@ -14,8 +14,8 @@ export class OpenAiModelsList {
   owned_by: string;
 
   @ApiProperty()
-  root?: string = null;
+  root?: string;
 
   @ApiProperty()
-  parent?: string = null;
+  parent?: string;
 }

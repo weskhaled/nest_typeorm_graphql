@@ -1,5 +1,6 @@
-import { Injectable, ExecutionContext } from '@nestjs/common';
-import { GqlExecutionContext, GqlContextType } from '@nestjs/graphql';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
@@ -8,6 +9,7 @@ export class GraphqlPassportAuthGuard extends AuthGuard('jwt') {
 
   constructor(roles?: string | string[]) {
     super();
+
     if (roles) {
       this._roles = Array.isArray(roles) ? roles : [roles];
     }
@@ -23,12 +25,13 @@ export class GraphqlPassportAuthGuard extends AuthGuard('jwt') {
       return true;
     }
 
-    return this.hasAccess(role, this._roles);
+    return this.hasAccess(`${role}`, this._roles);
   }
 
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
+
     return req;
   }
 

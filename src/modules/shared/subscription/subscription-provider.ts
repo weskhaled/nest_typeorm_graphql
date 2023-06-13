@@ -5,6 +5,7 @@ export const SubscriptionProvider = {
   provide: 'SubscriptionProvider',
   useFactory: () => {
     const subscription = new PubSub();
+
     return subscription;
   },
 };

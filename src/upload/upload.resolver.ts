@@ -1,7 +1,15 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { GraphQLUpload, FileUpload } from 'graphql-upload';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ConfigService } from '@nestjs/config';
-import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import {
+  Args,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from '@nestjs/graphql';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
+
 import { UploadService } from './upload.service';
 
 @ObjectType()
@@ -21,7 +29,7 @@ export class UploadResolver {
   constructor(
     private readonly uploadService: UploadService,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   @Mutation(() => String)
   async uploadFile(
@@ -64,8 +72,9 @@ export class UploadResolver {
     const mapped = keys.map((key) => key.split('s3.amazonaws.com/')[1]);
 
     for await (const key of mapped) {
-      this.uploadService.deleteS3Object(key);
+      void this.uploadService.deleteS3Object(key);
     }
+
     return true;
   }
 

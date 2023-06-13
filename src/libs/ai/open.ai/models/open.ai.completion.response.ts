@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { OpenAiUsage } from './open.ai.usage';
 import { OpenAiChoice } from './open.ai.choice';
+import { OpenAiUsage } from './open.ai.usage';
 
 const choiceExample = {
   index: 0,

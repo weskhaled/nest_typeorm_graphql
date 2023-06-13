@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
+
 import { SignUpInput } from '../auth/inputs/auth.input';
 import { OneRepoQuery, RepoQuery } from '../declare/types';
 import { User } from './entities/user.entity';
 import { CreateUserInput, UpdateUserInput } from './inputs/user.input';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
@@ -27,11 +28,13 @@ export class UserService {
 
   async update(id: string, input: UpdateUserInput): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
+
     return this.userRepository.save({ ...user, ...input });
   }
 
   async delete(id: string) {
     const { affected } = await this.userRepository.delete({ id });
-    return { status: affected > 0 ? 'success' : 'fail' };
+
+    return affected && { status: affected > 0 ? 'success' : 'fail' };
   }
 }
