@@ -1,9 +1,9 @@
-import { graphqlUploadExpress } from 'graphql-upload';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 import { AppModule } from './app.module';
 // import { LoggingInterceptor } from './modules/interceptors/logging.interceptor';
@@ -47,4 +47,5 @@ async function bootstrap() {
   await app.listen(configService.get('PORT') || 8000);
   Logger.log(`Application is running on: ${await app.getUrl()}`);
 }
+
 bootstrap();

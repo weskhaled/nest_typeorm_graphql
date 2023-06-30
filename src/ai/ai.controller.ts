@@ -8,6 +8,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Observable } from 'rxjs';
 
 import { OpenAiCompletionResponse } from '../libs/ai/open.ai/models/open.ai.completion.response';
 import { OpenAiImageResponse } from '../libs/ai/open.ai/models/open.ai.image.response';
@@ -62,7 +63,7 @@ export class AiController {
 
   @Post('image/create')
   @UseInterceptors(ClassSerializerInterceptor)
-  @ApiOkResponse({ type: OpenAiImageResponse.data })
+  @ApiOkResponse({ type: OpenAiImageResponse })
   @ApiOperation({
     description: 'Generates an image from a prompt',
     summary: 'Generates an image from a prompt',
@@ -72,7 +73,7 @@ export class AiController {
   }
 
   @Post('chat')
-  @ApiOkResponse({ type: OpenAiImageResponse.data })
+  @ApiOkResponse({ type: Observable<{ data: string }> })
   @ApiOperation({
     description: 'Generates an chat with ai',
     summary: 'Generates an chat with ai',
