@@ -1,27 +1,27 @@
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
   Get,
   Post,
-  Body,
-  Controller,
+  Sse,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { OpenAiModelsList } from '../libs/ai/open.ai/models/open.ai.models.list';
-import { OpenAiImageResponse } from '../libs/ai/open.ai/models/open.ai.image.response';
 import { OpenAiCompletionResponse } from '../libs/ai/open.ai/models/open.ai.completion.response';
-
+import { OpenAiImageResponse } from '../libs/ai/open.ai/models/open.ai.image.response';
+import { OpenAiModelsList } from '../libs/ai/open.ai/models/open.ai.models.list';
 import { AiService } from './ai.service';
-
+import { RequestBodyPrompt } from './dto/chat.dto';
+import { CodeCompletionDto } from './dto/code.completion.dto';
 import { GenerateImageDto } from './dto/generate.image.dto';
 import { TextCompletionDto } from './dto/text.completion.dto';
-import { CodeCompletionDto } from './dto/code.completion.dto';
 
 @ApiTags('AI')
 @Controller('ai')
 export class AiController {
-  constructor(private readonly service: AiService) { }
+  constructor(private readonly service: AiService) {}
 
   @Get('models')
   @UseInterceptors(ClassSerializerInterceptor)
@@ -62,12 +62,23 @@ export class AiController {
 
   @Post('image/create')
   @UseInterceptors(ClassSerializerInterceptor)
-  @ApiOkResponse({ type: OpenAiImageResponse['data'] })
+  @ApiOkResponse({ type: OpenAiImageResponse.data })
   @ApiOperation({
     description: 'Generates an image from a prompt',
     summary: 'Generates an image from a prompt',
   })
   async generateImage(@Body() dto: GenerateImageDto): Promise<string[]> {
     return this.service.generateImage(dto);
+  }
+
+  @Post('chat')
+  @ApiOkResponse({ type: OpenAiImageResponse.data })
+  @ApiOperation({
+    description: 'Generates an chat with ai',
+    summary: 'Generates an chat with ai',
+  })
+  @Sse()
+  getCompletion(@Body() dto: RequestBodyPrompt) {
+    return this.service.getChatCompletion(dto);
   }
 }

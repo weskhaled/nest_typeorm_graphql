@@ -79,6 +79,9 @@ dependencies:
   openai:
     specifier: ^3.2.1
     version: 3.2.1
+  openai-edge:
+    specifier: ^1.1.0
+    version: 1.1.0
   ora:
     specifier: ^6.1.2
     version: 6.1.2
@@ -6220,6 +6223,11 @@ packages:
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
     dev: true
+
+  /openai-edge@1.1.0:
+    resolution: {integrity: sha512-VkXT7yhKjr1QlC/wIMuPW/s003cPHUtiNjt/kH+54iKDZZ7eiGMPuymhpSWJ/zVZfVz6+94okGd6rNuu7JRBDw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /openai@3.2.1:
     resolution: {integrity: sha512-762C9BNlJPbjjlWZi4WYK9iM2tAVAv0uUp1UmI34vb0CN5T2mjB/qM6RYBmNKMh/dN9fC+bxqPwWJZUTWW052A==}

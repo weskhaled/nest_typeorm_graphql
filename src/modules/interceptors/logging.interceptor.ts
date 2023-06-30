@@ -14,7 +14,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const date = new Date().toISOString();
 
     const fieldName = context.getArgs()[3]
-      ? context.getArgs()[3].fieldName
+      ? context.getArgs()[3]?.fieldName
       : '';
 
     console.time(`Request-Response time ${date} for ${fieldName}`);

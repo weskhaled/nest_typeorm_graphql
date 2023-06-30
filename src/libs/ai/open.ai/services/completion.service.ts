@@ -5,7 +5,7 @@ import { OpenAiCompletionResponse } from '../models/open.ai.completion.response'
 export class OpenAiCompletionService {
   private readonly DEFAULT_COMPLETION_MODEL = 'text-davinci-003';
 
-  private readonly DEFAULT_CODE_COMPLETION_MODEL = 'text-davinci-002';
+  private readonly DEFAULT_CODE_COMPLETION_MODEL = 'text-davinci-003';
 
   private readonly MAX_TOKENS = 128;
 
@@ -43,6 +43,7 @@ export class OpenAiCompletionService {
         // presence_penalty: 0.0,
       })
       .then((response) => {
+
         return response.data;
       });
   }

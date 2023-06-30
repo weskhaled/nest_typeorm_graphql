@@ -3,15 +3,16 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AppModule } from './app.module';
-import { LoggingInterceptor } from './modules/interceptors/logging.interceptor';
-import { TimeoutInterceptor } from './modules/interceptors/timeout.interceptor';
 import { ConfigService } from '@nestjs/config';
+
+import { AppModule } from './app.module';
+// import { LoggingInterceptor } from './modules/interceptors/logging.interceptor';
+import { TimeoutInterceptor } from './modules/interceptors/timeout.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useGlobalInterceptors(new TimeoutInterceptor(), new LoggingInterceptor());
+  app.useGlobalInterceptors(new TimeoutInterceptor());
 
   app.useGlobalPipes(
     new ValidationPipe({
