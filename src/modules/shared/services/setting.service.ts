@@ -96,6 +96,7 @@ export class SettingService {
           'http://localhost',
           'https://localhost',
           'https://vue3-urql.vercel.app',
+          'https://weslati-khaled.vercel.app',
           'https://studio.apollographql.com',
         ],
       },
