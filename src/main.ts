@@ -29,7 +29,14 @@ async function bootstrap() {
     graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   );
 
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:3333',
+      'https://localhost:3333',
+      'https://weslati-khaled.vercel.app',
+    ],
+    credentials: true,
+  });
 
   const configService = app.select(AppModule).get(ConfigService);
 

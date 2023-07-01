@@ -56,7 +56,7 @@ export class SettingService {
     | Omit<ApolloDriverConfig, 'driver'>
     | (Promise<Omit<ApolloDriverConfig, 'driver'>> & {
         resolvers: { JSON: typeof GraphQLJSON };
-      } & { cors: { origin: string; credentials: boolean } } & {
+      } & { cors: { origin: string; credentials: boolean; maxAge: number } } & {
         formatError: typeof formatError;
       } & { plugins: any }) {
     return {
@@ -91,7 +91,7 @@ export class SettingService {
       },
       cors: {
         credentials: true,
-        maxAge: 600,
+        maxAge: 900,
         origin: [
           'http://localhost',
           'https://localhost',
