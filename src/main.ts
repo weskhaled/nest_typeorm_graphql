@@ -30,11 +30,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: [
-      'http://localhost:3333',
-      'https://localhost:3333',
-      'https://weslati-khaled.vercel.app',
-    ],
+    origin: ['https://weslati-khaled.vercel.app'],
     credentials: true,
   });
 
